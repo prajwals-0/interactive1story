@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lily and the Lost Lullaby — Interactive Storyboard & Production Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Fredoka', 'sans-serif'],
+                        body: ['Quicksand', 'sans-serif']
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            rose: '#fb7185',
+                            sky: '#38bdf8',
+                            mint: '#34d399',
+                            lavender: '#a78bfa'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Styles & Chart Container Constraints */
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #fcfbf7;
+            color: #292524;
+        }
+        h1, h2, h3, h4, .font-fun {
+            font-family: 'Fredoka', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 580px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 280px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 320px;
+            }
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .pulse-glow {
+            animation: pulseGlow 2.5s infinite ease-in-out;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(251, 113, 133, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(251, 113, 133, 0.7); }
+        }
+    </style>
+</head>
+<!-- Chosen Palette: Warm Pastel Magic (Background: #FCFBF7, Primaries: Warm Amber #FEF3C7, Coral Rose #FB7185, Soft Sky #38BDF8, Lavender #A78BFA, Emerald #34D399) -->
+<!-- Application Structure Plan:
+     Designed as a 4-Tab Interactive Animation Production & Storyboard Hub:
+     1. Interactive Storyboard & Audio Script Player: Timeline controller with visual Canvas renderer depicting scenes dynamically, text highlights, dialogue cues, and audio sound-effect triggers.
+     2. Character & World Explorer: Deep dive into character design metrics, emotional transformations, and environment specs with interactive color palette swatches.
+     3. Production Analytics & Pedagogical Matrix: Chart.js visualizations tracking emotional pacing across the 6-minute duration, core moral alignment, and screen-time density.
+     4. YouTube Studio & Thumbnail Builder: Live interactive canvas/HTML tool allowing users to customize title, character highlights, overlay colors, and metadata for maximum audience engagement.
+     Rationale: Breaks down linear video script into multi-faceted interactive media production components suitable for directors, animators, and YouTube strategists. -->
+<!-- Visualization & Content Choices:
+     - Narrative Timeline -> Dynamic Canvas Scene Renderer + Interactive Scene Cards -> JS State engine -> Visual representation without external raster images or SVGs.
+     - Pacing Arc -> Line Chart (Chart.js) -> Canvas overlay -> Shows intensity across 6-minute mark.
+     - Moral Values Breakdown -> Radar Chart (Chart.js) -> Canvas -> Demonstrates educational value (Problem Solving, Kindness, Courage, Empathy).
+     - Character Palettes -> Dynamic HTML Swatch Inspectors -> Interactive selection.
+     - Thumbnail Generator -> Real-time HTML/Canvas render -> Custom text/badge live updates.
+     - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. All visuals created via Canvas 2D API, Tailwind styling, standard Unicode characters. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+<body class="min-h-screen flex flex-col antialiased selection:bg-brand-200 selection:text-brand-600">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-amber-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 sm:h-20">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-amber-400 via-rose-400 to-sky-400 flex items-center justify-center text-white text-xl sm:text-2xl shadow-md font-fun">
+                        ✨
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">YouTube Kids Production Hub</span>
+                        <h1 class="text-lg sm:text-2xl font-bold text-stone-800 tracking-tight leading-none mt-0.5">Sparkle Sprouts Adventures</h1>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav aria-label="Production sections" class="hidden md:flex space-x-1 lg:space-x-2 bg-stone-100/80 p-1.5 rounded-2xl border border-stone-200/60">
+                    <button onclick="switchTab('storyboard')" id="tab-btn-storyboard" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 bg-white text-amber-600 shadow-sm">
+                        🎬 Storyboard Player
+                    </button>
+                    <button onclick="switchTab('characters')" id="tab-btn-characters" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 text-stone-600 hover:text-stone-900">
+                        🎨 Characters & World
+                    </button>
+                    <button onclick="switchTab('analytics')" id="tab-btn-analytics" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 text-stone-600 hover:text-stone-900">
+                        📊 Production Analytics
+                    </button>
+                    <button onclick="switchTab('youtube')" id="tab-btn-youtube" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 text-stone-600 hover:text-stone-900">
+                        📺 YouTube Studio Kit
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <select onchange="switchTab(this.value)" class="bg-amber-50 border border-amber-300 text-amber-900 text-sm rounded-xl p-2 font-semibold focus:outline-none">
+                        <option value="storyboard">🎬 Storyboard</option>
+                        <option value="characters">🎨 Characters</option>
+                        <option value="analytics">📊 Analytics</option>
+                        <option value="youtube">📺 YouTube Kit</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8">
+
+        <!-- Banner / Key Metrics Summary -->
+        <section class="bg-gradient-to-r from-amber-100/80 via-rose-50 to-sky-100/80 rounded-3xl p-6 sm:p-8 border border-amber-200/60 shadow-sm relative overflow-hidden">
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="space-y-2 max-w-2xl">
+                    <div class="inline-flex items-center space-x-2 bg-white/80 px-3 py-1 rounded-full text-xs font-bold text-rose-500 border border-rose-200">
+                        <span>🌟 Video Title:</span>
+                        <span class="text-stone-800 font-semibold">Lily and the Lost Lullaby</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-4xl font-bold text-stone-800 tracking-wide">
+                        Interactive Script & Production Suite
+                    </h2>
+                    <p class="text-stone-600 text-sm sm:text-base leading-relaxed">
+                        An original 6-minute animated adventure crafted for children aged 5-10. Explores core themes of problem-solving, empathy, and active kindness through smooth visual storytelling and musical cues.
+                    </p>
+                </div>
+
+                <!-- KPI Badges -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 md:w-auto w-full">
+                    <div class="bg-white/90 p-3 rounded-2xl border border-stone-200/80 text-center shadow-sm">
+                        <div class="text-xs font-medium text-stone-500 uppercase tracking-wider">Target Age</div>
+                        <div class="text-xl font-bold text-amber-600 mt-0.5">5 - 10 Yrs</div>
+                    </div>
+                    <div class="bg-white/90 p-3 rounded-2xl border border-stone-200/80 text-center shadow-sm">
+                        <div class="text-xs font-medium text-stone-500 uppercase tracking-wider">Duration</div>
+                        <div class="text-xl font-bold text-rose-500 mt-0.5">~ 6:00 Mins</div>
+                    </div>
+                    <div class="bg-white/90 p-3 rounded-2xl border border-stone-200/80 text-center shadow-sm">
+                        <div class="text-xs font-medium text-stone-500 uppercase tracking-wider">Scenes</div>
+                        <div class="text-xl font-bold text-sky-500 mt-0.5">6 Act Segments</div>
+                    </div>
+                    <div class="bg-white/90 p-3 rounded-2xl border border-stone-200/80 text-center shadow-sm">
+                        <div class="text-xs font-medium text-stone-500 uppercase tracking-wider">Core Lesson</div>
+                        <div class="text-xl font-bold text-emerald-500 mt-0.5">Kindness</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 1: STORYBOARD & SCRIPT PLAYER -->
+        <section id="sec-storyboard" class="tab-content space-y-6">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-sm space-y-6">
+                
+                <div class="flex flex-col lg:flex-row justify-between lg:items-center gap-4 border-b border-stone-100 pb-4">
+                    <div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-stone-800 flex items-center gap-2">
+                            <span>🎬</span> Dynamic Storyboard & Script Player
+                        </h3>
+                        <p class="text-stone-500 text-sm mt-1">
+                            Click through scenes or press play to preview animation canvas, dialogue cues, and audio direction.
+                        </p>
+                    </div>
+
+                    <!-- Player Controls -->
+                    <div class="flex items-center space-x-2 bg-stone-100 p-2 rounded-2xl">
+                        <button onclick="prevScene()" class="px-3 py-1.5 rounded-xl bg-white text-stone-700 hover:bg-amber-100 font-bold text-sm shadow-sm transition">
+                            ⏮ Prev
+                        </button>
+                        <button id="play-pause-btn" onclick="togglePlayScript()" class="px-5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm shadow-md transition flex items-center gap-1.5">
+                            <span id="play-icon">▶</span> <span id="play-text">Play Arc</span>
+                        </button>
+                        <button onclick="nextScene()" class="px-3 py-1.5 rounded-xl bg-white text-stone-700 hover:bg-amber-100 font-bold text-sm shadow-sm transition">
+                            Next ⏭
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    
+                    <!-- Left Column: Dynamic Visual Canvas Simulator -->
+                    <div class="lg:col-span-6 flex flex-col space-y-4">
+                        <div class="relative bg-stone-900 rounded-2xl overflow-hidden shadow-lg border border-stone-800">
+                            <!-- Aspect ratio 16:9 canvas wrapper -->
+                            <div class="relative w-full h-64 sm:h-80 bg-stone-950 flex items-center justify-center">
+                                <canvas id="storyboard-canvas" class="w-full h-full object-contain block"></canvas>
+                                
+                                <!-- Overlay Scene Tag -->
+                                <div class="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-white text-xs font-mono font-bold border border-white/20">
+                                    <span id="canvas-timestamp" aria-live="polite">0:00 - 0:45</span>
+                                </div>
+                                <div class="absolute top-3 right-3 bg-amber-400 text-amber-950 px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider">
+                                    <span id="canvas-scene-title" aria-live="polite">Act I: Discovery</span>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Progress Bar -->
+                            <div class="bg-stone-800 p-3 flex items-center space-x-3">
+                                <span class="text-xs text-stone-400 font-mono" id="curr-time-display" aria-live="polite">0:00</span>
+                                <div class="flex-grow bg-stone-700 h-2 rounded-full overflow-hidden cursor-pointer" onclick="seekByClick(event)">
+                                    <div id="script-progress-bar" class="bg-gradient-to-r from-amber-400 to-rose-400 h-full w-0 transition-all duration-300"></div>
+                                </div>
+                                <span class="text-xs text-stone-400 font-mono">6:00</span>
+                            </div>
+                        </div>
+
+                        <!-- Audio & Visual Sound Trigger Cards -->
+                        <div class="bg-amber-50/60 rounded-2xl p-4 border border-amber-200/70 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-700 flex items-center gap-1">
+                                    <span>🔊</span> Audio Track & SFX Direction
+                                </span>
+                                <span class="text-xs text-amber-600 bg-amber-100 px-2 py-0.5 rounded-full font-semibold" id="sfx-mood-badge">Mood: Whimsical</span>
+                            </div>
+                            <p class="text-sm text-stone-700 italic font-medium" id="sfx-description-text">
+                                "Gentle, whimsical orchestral music with playful flutes and soft strings. Light rustling and faint magical chimes."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Interactive Script & Dialogue Details -->
+                    <div class="lg:col-span-6 flex flex-col space-y-4">
+                        
+                        <!-- Scene Selector Pills -->
+                        <div class="flex space-x-2 overflow-x-auto pb-2 custom-scrollbar">
+                            <button onclick="selectScene(0)" class="scene-tab-btn whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-bold transition bg-amber-500 text-white shadow-sm" id="scene-pill-0">Scene 1</button>
+                            <button onclick="selectScene(1)" class="scene-tab-btn whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-600 hover:bg-stone-200" id="scene-pill-1">Scene 2</button>
+                            <button onclick="selectScene(2)" class="scene-tab-btn whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-600 hover:bg-stone-200" id="scene-pill-2">Scene 3</button>
+                            <button onclick="selectScene(3)" class="scene-tab-btn whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-600 hover:bg-stone-200" id="scene-pill-3">Scene 4</button>
+                            <button onclick="selectScene(4)" class="scene-tab-btn whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-600 hover:bg-stone-200" id="scene-pill-4">Scene 5</button>
+                            <button onclick="selectScene(5)" class="scene-tab-btn whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-600 hover:bg-stone-200" id="scene-pill-5">Scene 6</button>
+                        </div>
+
+                        <!-- Main Script Content Card -->
+                        <div class="bg-stone-50 rounded-2xl p-5 border border-stone-200/80 flex-grow space-y-4">
+                            
+                            <div>
+                                <div class="text-xs font-bold text-amber-600 uppercase tracking-wider mb-1">Visual Action & Setting</div>
+                                <p class="text-sm sm:text-base text-stone-800 font-medium leading-relaxed" id="script-visual-text">
+                                    Lily sitting under a big friendly tree sketching in her sketchbook. A tiny glowing Melody Maker tumbles out of the foliage.
+                                </p>
+                            </div>
+
+                            <div class="border-t border-stone-200 pt-3">
+                                <div class="text-xs font-bold text-rose-500 uppercase tracking-wider mb-2">Dialogue & Character Voice</div>
+                                <div class="bg-white rounded-xl p-3 border border-stone-200/70 space-y-2 text-sm text-stone-800" id="script-dialogue-box">
+                                    <!-- Dynamic dialogue insertion -->
+                                </div>
+                            </div>
+
+                            <div class="border-t border-stone-200 pt-3 flex items-center justify-between">
+                                <div class="text-xs font-bold text-sky-600 uppercase tracking-wider">Educational Focus</div>
+                                <div class="text-xs font-semibold bg-sky-100 text-sky-800 px-2.5 py-1 rounded-lg" id="script-moral-focus">
+                                    Curiosity & Openness
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TAB 2: CHARACTERS & WORLD DESIGN -->
+        <section id="sec-characters" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-sm space-y-6">
+                
+                <div class="border-b border-stone-100 pb-4">
+                    <h3 class="text-xl sm:text-2xl font-bold text-stone-800 flex items-center gap-2">
+                        <span>🎨</span> Character Profiles & Color Palette Architecture
+                    </h3>
+                    <p class="text-stone-500 text-sm mt-1">
+                        Detailed design specifications, visual aesthetics, and emotional expressions for all primary cast members.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <!-- Character 1: Lily -->
+                    <div class="bg-gradient-to-b from-rose-50 to-white rounded-2xl p-5 border border-rose-200 flex flex-col justify-between hover:shadow-md transition">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 rounded-2xl bg-rose-400 text-white flex items-center justify-center font-bold text-2xl font-fun shadow-sm">
+                                    👧
+                                </div>
+                                <span class="text-xs font-bold bg-rose-100 text-rose-700 px-2.5 py-1 rounded-full">Protagonist</span>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-stone-800">Lily</h4>
+                                <p class="text-xs text-stone-500">7-Year-Old Adventurer • Imaginative & Kind</p>
+                            </div>
+                            <p class="text-xs text-stone-600 leading-relaxed">
+                                Red overalls, yellow-striped shirt, pigtails with blue ribbons. Large expressive eyes designed to naturally convey empathy, curiosity, and determination.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-rose-100 space-y-2">
+                            <div class="text-xs font-bold text-stone-500">Signature Palette</div>
+                            <div class="flex space-x-1.5">
+                                <span class="w-6 h-6 rounded-full bg-rose-500 border border-white shadow-sm" title="Red Overalls (#F43F5E)"></span>
+                                <span class="w-6 h-6 rounded-full bg-amber-300 border border-white shadow-sm" title="Yellow Shirt (#FDE047)"></span>
+                                <span class="w-6 h-6 rounded-full bg-sky-400 border border-white shadow-sm" title="Ribbons (#38BDF8)"></span>
+                                <span class="w-6 h-6 rounded-full bg-amber-800 border border-white shadow-sm" title="Hair (#92400E)"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Character 2: The Lost Melody Maker -->
+                    <div class="bg-gradient-to-b from-sky-50 to-white rounded-2xl p-5 border border-sky-200 flex flex-col justify-between hover:shadow-md transition">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 rounded-2xl bg-sky-400 text-white flex items-center justify-center font-bold text-2xl font-fun shadow-sm">
+                                    🎵
+                                </div>
+                                <span class="text-xs font-bold bg-sky-100 text-sky-700 px-2.5 py-1 rounded-full">Magical Creature</span>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-stone-800">Melody Maker</h4>
+                                <p class="text-xs text-stone-500">Iridescent Musical Sprite • Gentle & Glowing</p>
+                            </div>
+                            <p class="text-xs text-stone-600 leading-relaxed">
+                                Shaped like a soft glowing musical note with tiny translucent wings. Expresses feelings through color pulses and melodic twinkle chiming.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-sky-100 space-y-2">
+                            <div class="text-xs font-bold text-stone-500">Signature Palette</div>
+                            <div class="flex space-x-1.5">
+                                <span class="w-6 h-6 rounded-full bg-sky-300 border border-white shadow-sm" title="Cyan Sparkle (#7DD3FC)"></span>
+                                <span class="w-6 h-6 rounded-full bg-indigo-300 border border-white shadow-sm" title="Soft Blue (#A5B4FC)"></span>
+                                <span class="w-6 h-6 rounded-full bg-pink-300 border border-white shadow-sm" title="Rose Glow (#F472B6)"></span>
+                                <span class="w-6 h-6 rounded-full bg-yellow-200 border border-white shadow-sm" title="Aura Gold (#FEF08A)"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Character 3: Forest Squirrel -->
+                    <div class="bg-gradient-to-b from-amber-50 to-white rounded-2xl p-5 border border-amber-200 flex flex-col justify-between hover:shadow-md transition">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-bold text-2xl font-fun shadow-sm">
+                                    🐿️
+                                </div>
+                                <span class="text-xs font-bold bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full">Forest Guide</span>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-stone-800">Forest Squirrel</h4>
+                                <p class="text-xs text-stone-500">Fluffy Helper • Energetic & Grateful</p>
+                            </div>
+                            <p class="text-xs text-stone-600 leading-relaxed">
+                                Soft brown fur with a large bushy tail. Rescued from vine tangles by Lily, guiding her to the secret shortcut inside Whispering Woods.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-amber-100 space-y-2">
+                            <div class="text-xs font-bold text-stone-500">Signature Palette</div>
+                            <div class="flex space-x-1.5">
+                                <span class="w-6 h-6 rounded-full bg-amber-700 border border-white shadow-sm" title="Fur Warm Brown (#B45309)"></span>
+                                <span class="w-6 h-6 rounded-full bg-amber-100 border border-white shadow-sm" title="Cream Belly (#FEF3C7)"></span>
+                                <span class="w-6 h-6 rounded-full bg-emerald-600 border border-white shadow-sm" title="Vine Green (#059669)"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Environment: Whispering Woods -->
+                    <div class="bg-gradient-to-b from-emerald-50 to-white rounded-2xl p-5 border border-emerald-200 flex flex-col justify-between hover:shadow-md transition">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center font-bold text-2xl font-fun shadow-sm">
+                                    🌲
+                                </div>
+                                <span class="text-xs font-bold bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full">Environment</span>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-stone-800">Whispering Woods</h4>
+                                <p class="text-xs text-stone-500">Lush Enchanted Forest • Safe & Vibrant</p>
+                            </div>
+                            <p class="text-xs text-stone-600 leading-relaxed">
+                                Curved friendly trees, glowing flora, gentle rolling streams, and luminous musical groves. Zero sharp or frightening visuals.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-emerald-100 space-y-2">
+                            <div class="text-xs font-bold text-stone-500">Environment Palette</div>
+                            <div class="flex space-x-1.5">
+                                <span class="w-6 h-6 rounded-full bg-emerald-400 border border-white shadow-sm" title="Lush Leaf (#34D399)"></span>
+                                <span class="w-6 h-6 rounded-full bg-teal-600 border border-white shadow-sm" title="Deep Forest (#0D9488)"></span>
+                                <span class="w-6 h-6 rounded-full bg-sky-200 border border-white shadow-sm" title="Stream Blue (#BAE6FD)"></span>
+                                <span class="w-6 h-6 rounded-full bg-purple-300 border border-white shadow-sm" title="Flora Glow (#D8B4FE)"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TAB 3: PRODUCTION ANALYTICS & MORAL MATRIX -->
+        <section id="sec-analytics" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-sm space-y-6">
+                
+                <div class="border-b border-stone-100 pb-4">
+                    <h3 class="text-xl sm:text-2xl font-bold text-stone-800 flex items-center gap-2">
+                        <span>📊</span> Narrative Pacing & Educational Value Matrix
+                    </h3>
+                    <p class="text-stone-500 text-sm mt-1">
+                        Quantitative and thematic breakdown of audience engagement, emotional curve, and moral learning objectives.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- Chart 1: Emotional & Narrative Pacing Arc -->
+                    <div class="bg-stone-50 rounded-2xl p-5 border border-stone-200 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-base font-bold text-stone-800">Emotional Intensity & Pacing Arc</h4>
+                                <span class="text-xs font-semibold bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full">0 - 6:00 Mins</span>
+                            </div>
+                            <p class="text-xs text-stone-500 mb-4">
+                                Tracks narrative suspense, curiosity, and emotional resonance across the 6-minute timeline.
+                            </p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chart-pacing-arc"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Chart 2: Core Educational Values Distribution -->
+                    <div class="bg-stone-50 rounded-2xl p-5 border border-stone-200 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-base font-bold text-stone-800">Moral & Educational Value Breakdown</h4>
+                                <span class="text-xs font-semibold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">SEL Core</span>
+                            </div>
+                            <p class="text-xs text-stone-500 mb-4">
+                                Social-Emotional Learning (SEL) dimensions embedded throughout Lily's journey.
+                            </p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chart-moral-matrix"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TAB 4: YOUTUBE STUDIO & THUMBNAIL BUILDER -->
+        <section id="sec-youtube" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-sm space-y-6">
+                
+                <div class="border-b border-stone-100 pb-4">
+                    <h3 class="text-xl sm:text-2xl font-bold text-stone-800 flex items-center gap-2">
+                        <span>📺</span> YouTube Channel Kit & Interactive Thumbnail Builder
+                    </h3>
+                    <p class="text-stone-500 text-sm mt-1">
+                        Generate high-CTR thumbnail layouts, metadata, and channel branding elements tailored for kids' YouTube algorithms.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    
+                    <!-- Left: Live Thumbnail Customizer Controls -->
+                    <div class="lg:col-span-5 space-y-4 bg-stone-50 p-5 rounded-2xl border border-stone-200">
+                        <h4 class="text-sm font-bold uppercase tracking-wider text-amber-600">Thumbnail Customization Controls</h4>
+                        
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-bold text-stone-700 mb-1">Main Overlay Title</label>
+                                <input type="text" id="thumb-title-input" value="Lily & The Lost Lullaby!" oninput="updateThumbnailPreview()" class="w-full bg-white border border-stone-300 rounded-xl px-3 py-2 text-sm text-stone-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-stone-700 mb-1">Badge Tagline</label>
+                                <input type="text" id="thumb-badge-input" value="✨ Animated Story" oninput="updateThumbnailPreview()" class="w-full bg-white border border-stone-300 rounded-xl px-3 py-2 text-sm text-stone-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-stone-700 mb-1">Background Gradient Theme</label>
+                                <select id="thumb-bg-select" onchange="updateThumbnailPreview()" class="w-full bg-white border border-stone-300 rounded-xl px-3 py-2 text-sm text-stone-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400">
+                                    <option value="sunny">Sunny Forest (Amber & Sky)</option>
+                                    <option value="magical">Magical Sunset (Rose & Violet)</option>
+                                    <option value="grove">Enchanted Grove (Emerald & Teal)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-stone-700 mb-1">Featured Character Badge</label>
+                                <select id="thumb-char-select" onchange="updateThumbnailPreview()" class="w-full bg-white border border-stone-300 rounded-xl px-3 py-2 text-sm text-stone-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400">
+                                    <option value="lily-note">Lily holding Melody Maker</option>
+                                    <option value="squirrel">Lily saving Squirrel</option>
+                                    <option value="grove-reunion">Melody Grove Reunion</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Live Thumbnail Canvas Preview & Metadata Box -->
+                    <div class="lg:col-span-7 space-y-6">
+                        
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-bold uppercase tracking-wider text-stone-500">Live 16:9 Thumbnail Preview</span>
+                                <span class="text-xs bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded">High CTR Design</span>
+                            </div>
+
+                            <!-- 16:9 Thumbnail Canvas Container -->
+                            <div class="relative w-full rounded-2xl overflow-hidden shadow-lg border-2 border-stone-800 bg-stone-900 aspect-video flex items-center justify-center">
+                                <canvas id="thumbnail-canvas" class="w-full h-full object-cover block"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Optimized Metadata Snippet -->
+                        <div class="bg-amber-50/70 p-4 rounded-2xl border border-amber-200/80 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-800">YouTube SEO & Metadata Export</span>
+                                <button onclick="copyMetadata()" class="text-xs bg-amber-500 hover:bg-amber-600 text-white font-bold px-3 py-1 rounded-xl transition shadow-sm">
+                                    📋 Copy Metadata
+                                </button>
+                            </div>
+                            <div class="text-xs font-mono bg-white p-3 rounded-xl border border-amber-200 text-stone-700 space-y-1">
+                                <div><strong class="text-amber-700">Title:</strong> Sparkle Sprouts Adventures | Lily and the Lost Lullaby (Animated Kids Story)</div>
+                                <div><strong class="text-amber-700">Tags:</strong> animated kids video, children storybook, problem solving for kids, kindness story, lily and the lost lullaby, educational animation, learn friendship</div>
+                                <div><strong class="text-amber-700">Target Audience:</strong> Kids 5-10, Parents, Early Childhood Educators</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-stone-200 mt-12 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-stone-500">
+            <div class="flex items-center space-x-2">
+                <span class="font-bold text-stone-800">Sparkle Sprouts Adventures</span>
+                <span>•</span>
+                <span>Production & Interactive Storyboard Architecture</span>
+            </div>
+            <div>
+                Crafted for Kids YouTube Channel Creation (Ages 5–10)
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Data Store: Scene Specifications
+        const scenesData = [
+            {
+                id: 0,
+                act: "Act I: Discovery",
+                timeRange: "0:00 - 0:45",
+                timeSec: [0, 45],
+                title: "Lily's Backyard Sketching",
+                visual: "A sun-dappled backyard. Lily sits under a large friendly tree drawing in her sketchbook. A tiny glowing Melody Maker tumbles out of the tree leaves.",
+                dialogue: [
+                    { speaker: "Lily", text: "(Humming softly) Hmm... what if this creature had sparkly wings? And sang a song that made flowers bloom?" },
+                    { speaker: "Melody Maker", text: "(Soft, sad 'Meeep...' followed by a faint broken twinkle)" },
+                    { speaker: "Lily", text: "(Eyes wide with surprise) Oh my! Are you okay, little one?" }
+                ],
+                sfx: "Gentle whimsical orchestral music with flutes. Soft wind rustling leaves and faint magical tumbling sound.",
+                mood: "Whimsical & Curious",
+                moral: "Curiosity & Openness",
+                pacingScore: 25,
+                canvasBg: "#FEF3C7"
+            },
+            {
+                id: 1,
+                act: "Act II: Predicament",
+                timeRange: "0:45 - 1:30",
+                timeSec: [45, 90],
+                title: "The Lost Melody Maker",
+                visual: "Lily holds the tiny creature gently in her cupped hands. The creature points towards the distant Whispering Woods. Lily remembers her grandma's tales of Melody Makers.",
+                dialogue: [
+                    { speaker: "Lily", text: "You're lost, aren't you? And you can't sing your song properly!" },
+                    { speaker: "Melody Maker", text: "(Nods sadly, a tiny glowing tear forms)" },
+                    { speaker: "Lily", text: "The Whispering Woods... Grandma told me about the Melody Makers! Are you one of them?" }
+                ],
+                sfx: "Melancholic shift in music. Subtle sad chime and soft inquisitive musical bell.",
+                mood: "Thoughtful & Empathic",
+                moral: "Active Empathy",
+                pacingScore: 40,
+                canvasBg: "#E0E7FF"
+            },
+            {
+                id: 2,
+                act: "Act III: First Obstacle",
+                timeRange: "1:30 - 3:00",
+                timeSec: [90, 180],
+                title: "Crossing the Stream",
+                visual: "Lily reaches a stream too wide to jump. Using a sturdy stick, she pushes submerged stepping stones into place, creating a safe path to hop across.",
+                dialogue: [
+                    { speaker: "Lily", text: "It's a bit far, but we can do it! Hmm... too far to jump... but what about those stones?" },
+                    { speaker: "Melody Maker", text: "(Nervous twinkles, turning into a happy chime when safe across)" },
+                    { speaker: "Lily", text: "(Hop! Hop!) Almost there... Got it!" }
+                ],
+                sfx: "Adventurous walking rhythm. Water gurgling sound and satisfying 'ploink!' of stones moving.",
+                mood: "Determined & Adventurous",
+                moral: "Problem-Solving",
+                pacingScore: 65,
+                canvasBg: "#D1FAE5"
+            },
+            {
+                id: 3,
+                act: "Act IV: Forest Friend",
+                timeRange: "3:00 - 4:30",
+                timeSec: [180, 270],
+                title: "Rescuing the Tangled Squirrel",
+                visual: "Lily finds a fluffy squirrel caught in thorny vines. She gently untangles it. Grateful, the squirrel points out a secret shortcut path into the woods.",
+                dialogue: [
+                    { speaker: "Lily", text: "Oh no, little squirrel, you're stuck! Don't worry, I'll be gentle." },
+                    { speaker: "Squirrel", text: "(Happy, relieved chittering and nuzzling)" },
+                    { speaker: "Lily", text: "Are you showing us a shortcut? Thank you!" }
+                ],
+                sfx: "Heartwarming melody. Soft vine rustling, squirrel chittering, and shimmering pathway reveal.",
+                mood: "Kind & Heartwarming",
+                moral: "Kindness & Gratitude",
+                pacingScore: 75,
+                canvasBg: "#FCE7F3"
+            },
+            {
+                id: 4,
+                act: "Act V: Reunion",
+                timeRange: "4:30 - 5:30",
+                timeSec: [270, 330],
+                title: "The Melody Maker Grove",
+                visual: "They arrive at the glowing Melody Grove. The tiny creature rejoins its family. Restored, it sings a magnificent thank-you lullaby while floating in light.",
+                dialogue: [
+                    { speaker: "Lily", text: "(Grinning broadly) You're home!" },
+                    { speaker: "Melody Maker Chorus", text: "(Full, harmonious orchestral chime chorus filling the forest)" },
+                    { speaker: "Lily", text: "Your song... it's so beautiful!" }
+                ],
+                sfx: "Uplifting celebratory symphony. Rich magical chime chorus and glowing particle ambient sounds.",
+                mood: "Joyful & Magical",
+                moral: "Community & Joy",
+                pacingScore: 95,
+                canvasBg: "#EDE9FE"
+            },
+            {
+                id: 5,
+                act: "Act VI: Moral Lesson",
+                timeRange: "5:30 - 6:00",
+                timeSec: [330, 360],
+                title: "Return Home & Moral Reflection",
+                visual: "Lily walks back home with a confident smile. Under her tree, she draws herself surrounded by her new forest friends in her sketchbook.",
+                dialogue: [
+                    { speaker: "Lily (Voiceover)", text: "It might seem scary at first to try new things or help someone, but when you're brave and kind, amazing adventures happen!" },
+                    { speaker: "Lily (Voiceover)", text: "And remember: even a small act of kindness can make a big difference!" }
+                ],
+                sfx: "Gentle fading theme song with final cheerful twinkle chime.",
+                mood: "Satisfied & Inspiring",
+                moral: "Moral Synthesis",
+                pacingScore: 50,
+                canvasBg: "#FEF3C7"
+            }
+        ];
+
+        // Global State Variables
+        let currentSceneIndex = 0;
+        let isPlaying = false;
+        let scriptInterval = null;
+        let pacingChart = null;
+        let moralChart = null;
+        let playbackTimer = null;
+        let playbackStartedAt = null;
+        let playbackElapsed = 0;
+
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSceneDetails(0);
+            drawStoryboardCanvas(0);
+            initAnalyticsCharts();
+            updateThumbnailPreview();
+            
+            // Resize canvas handlers
+            window.addEventListener('resize', () => {
+                drawStoryboardCanvas(currentSceneIndex);
+                updateThumbnailPreview();
+            });
+        });
+
+        // Tab Switching Handler
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'text-amber-600', 'shadow-sm');
+                btn.classList.add('text-stone-600');
+            });
+
+            const activeContent = document.getElementById(`sec-${tabId}`);
+            if (activeContent) activeContent.classList.remove('hidden');
+
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-white', 'text-amber-600', 'shadow-sm');
+                activeBtn.classList.remove('text-stone-600');
+            }
+
+            if (tabId === 'storyboard') {
+                setTimeout(() => drawStoryboardCanvas(currentSceneIndex), 50);
+            } else if (tabId === 'youtube') {
+                setTimeout(() => updateThumbnailPreview(), 50);
+            }
+        }
+
+        // Scene Selection & Render
+        function selectScene(index) {
+            currentSceneIndex = index;
+            renderSceneDetails(index);
+            drawStoryboardCanvas(index);
+            updateScenePills(index);
+        }
+
+        function updateScenePills(index) {
+            document.querySelectorAll('.scene-tab-btn').forEach((btn, idx) => {
+                if (idx === index) {
+                    btn.className = "scene-tab-btn whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-bold transition bg-amber-500 text-white shadow-sm";
+                } else {
+                    btn.className = "scene-tab-btn whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-600 hover:bg-stone-200";
+                }
+            });
+        }
+
+        function renderSceneDetails(idx) {
+            const data = scenesData[idx];
+            document.getElementById('canvas-timestamp').innerText = data.timeRange;
+            document.getElementById('canvas-scene-title').innerText = data.act;
+            document.getElementById('curr-time-display').innerText = data.timeRange.split(' - ')[0];
+            
+            // Calculate progress bar width
+            const totalDur = 360;
+            const currentSec = data.timeSec[0];
+            const pct = Math.round((currentSec / totalDur) * 100);
+            document.getElementById('script-progress-bar').style.width = `${pct}%`;
+
+            document.getElementById('sfx-mood-badge').innerText = `Mood: ${data.mood}`;
+            document.getElementById('sfx-description-text').innerText = `"${data.sfx}"`;
+
+            document.getElementById('script-visual-text').innerText = data.visual;
+            document.getElementById('script-moral-focus').innerText = data.moral;
+
+            // Render Dialogue
+            const dlgBox = document.getElementById('script-dialogue-box');
+            dlgBox.innerHTML = '';
+            data.dialogue.forEach(d => {
+                const item = document.createElement('div');
+                item.className = "leading-tight";
+                item.innerHTML = `<span class="font-bold text-amber-700 font-fun">${d.speaker}:</span> <span class="text-stone-700">${d.text}</span>`;
+                dlgBox.appendChild(item);
+            });
+        }
+
+        function nextScene() {
+            currentSceneIndex = (currentSceneIndex + 1) % scenesData.length;
+            selectScene(currentSceneIndex);
+        }
+
+        function prevScene() {
+            currentSceneIndex = (currentSceneIndex - 1 + scenesData.length) % scenesData.length;
+            selectScene(currentSceneIndex);
+        }
+
+        function togglePlayScript() {
+            const btnText = document.getElementById('play-text');
+            const btnIcon = document.getElementById('play-icon');
+
+            if (isPlaying) {
+                clearInterval(scriptInterval);
+                clearInterval(playbackTimer);
+                playbackElapsed += (performance.now() - playbackStartedAt) / 1000;
+                isPlaying = false;
+                btnText.innerText = 'Resume Arc';
+                btnIcon.innerText = '▶';
+                return;
+            }
+
+            if (playbackElapsed >= 360) playbackElapsed = 0;
+            isPlaying = true;
+            playbackStartedAt = performance.now();
+            btnText.innerText = 'Pause';
+            btnIcon.innerText = '⏸';
+            playbackTimer = setInterval(() => {
+                const elapsed = playbackElapsed + (performance.now() - playbackStartedAt) / 1000;
+                if (elapsed >= 360) {
+                    clearInterval(playbackTimer);
+                    clearInterval(scriptInterval);
+                    playbackElapsed = 0;
+                    isPlaying = false;
+                    btnText.innerText = 'Replay Arc';
+                    btnIcon.innerText = '▶';
+                    selectScene(0);
+                    return;
+                }
+                const nextIndex = scenesData.findIndex(scene => elapsed >= scene.timeSec[0] && elapsed < scene.timeSec[1]);
+                if (nextIndex >= 0 && nextIndex !== currentSceneIndex) selectScene(nextIndex);
+                const progress = document.getElementById('script-progress-bar');
+                if (progress) progress.style.width = `${(elapsed / 360) * 100}%`;
+                const clock = document.getElementById('curr-time-display');
+                if (clock) clock.innerText = formatTime(elapsed);
+            }, 100);
+        }
+
+        function formatTime(seconds) {
+            const safeSeconds = Math.max(0, Math.min(360, Math.floor(seconds)));
+            return `${Math.floor(safeSeconds / 60)}:${String(safeSeconds % 60).padStart(2, '0')}`;
+        }
+
+        function seekByClick(e) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+            const targetSeconds = pct * 360;
+            const targetIdx = scenesData.findIndex(scene => targetSeconds >= scene.timeSec[0] && targetSeconds < scene.timeSec[1]);
+            playbackElapsed = targetSeconds;
+            if (isPlaying) playbackStartedAt = performance.now();
+            selectScene(targetIdx < 0 ? scenesData.length - 1 : targetIdx);
+            const progress = document.getElementById('script-progress-bar');
+            if (progress) progress.style.width = `${pct * 100}%`;
+        }
+
+        // Canvas 2D Storyboard Simulator Drawing
+        function drawStoryboardCanvas(idx) {
+            const canvas = document.getElementById('storyboard-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            // Handle DPI
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+
+            const w = rect.width;
+            const h = rect.height;
+
+            // Draw Background
+            const data = scenesData[idx];
+            ctx.fillStyle = data.canvasBg || '#FEF3C7';
+            ctx.fillRect(0, 0, w, h);
+
+            // Draw Background Sun / Atmosphere
+            ctx.beginPath();
+            ctx.arc(w * 0.85, h * 0.2, 45, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(251, 191, 36, 0.4)';
+            ctx.fill();
+
+            // Draw Hills / Grass
+            ctx.beginPath();
+            ctx.moveTo(0, h * 0.65);
+            ctx.quadraticCurveTo(w * 0.3, h * 0.55, w * 0.6, h * 0.68);
+            ctx.quadraticCurveTo(w * 0.8, h * 0.75, w, h * 0.62);
+            ctx.lineTo(w, h);
+            ctx.lineTo(0, h);
+            ctx.fillStyle = '#34D399';
+            ctx.fill();
+
+            // Scene-Specific Canvas Visual Elements
+            if (idx === 0) {
+                // Tree
+                ctx.fillStyle = '#B45309';
+                ctx.fillRect(w * 0.1, h * 0.3, w * 0.08, h * 0.4);
+                ctx.beginPath();
+                ctx.arc(w * 0.14, h * 0.28, 50, 0, Math.PI * 2);
+                ctx.fillStyle = '#059669';
+                ctx.fill();
+                // Lily
+                drawLilyCharacter(ctx, w * 0.35, h * 0.65);
+                // Glowing Note
+                drawGlowingNote(ctx, w * 0.25, h * 0.4, 15, '#38BDF8');
+            } else if (idx === 1) {
+                // Lily close up
+                drawLilyCharacter(ctx, w * 0.4, h * 0.6);
+                drawGlowingNote(ctx, w * 0.52, h * 0.52, 18, '#F472B6');
+                // Distant Forest Pointer
+                ctx.fillStyle = 'rgba(13, 148, 136, 0.5)';
+                ctx.fillRect(w * 0.75, h * 0.35, w * 0.2, h * 0.35);
+            } else if (idx === 2) {
+                // Stream
+                ctx.fillStyle = '#38BDF8';
+                ctx.fillRect(w * 0.35, h * 0.55, w * 0.3, h * 0.4);
+                // Stepping Stones
+                ctx.fillStyle = '#94A3B8';
+                ctx.beginPath(); ctx.arc(w * 0.42, h * 0.65, 14, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(w * 0.50, h * 0.72, 16, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(w * 0.58, h * 0.63, 15, 0, Math.PI*2); ctx.fill();
+                // Lily crossing
+                drawLilyCharacter(ctx, w * 0.25, h * 0.58);
+            } else if (idx === 3) {
+                // Squirrel & Vines
+                drawLilyCharacter(ctx, w * 0.3, h * 0.63);
+                // Squirrel
+                ctx.beginPath();
+                ctx.arc(w * 0.55, h * 0.68, 16, 0, Math.PI * 2);
+                ctx.fillStyle = '#D97706';
+                ctx.fill();
+                // Vines
+                ctx.strokeStyle = '#059669';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(w * 0.5, h * 0.5);
+                ctx.quadraticCurveTo(w * 0.55, h * 0.75, w * 0.6, h * 0.6);
+                ctx.stroke();
+            } else if (idx === 4) {
+                // Grove Sparks
+                drawLilyCharacter(ctx, w * 0.2, h * 0.65);
+                drawGlowingNote(ctx, w * 0.45, h * 0.35, 22, '#A78BFA');
+                drawGlowingNote(ctx, w * 0.65, h * 0.45, 16, '#F472B6');
+                drawGlowingNote(ctx, w * 0.80, h * 0.30, 18, '#38BDF8');
+            } else if (idx === 5) {
+                // Sunset
+                drawLilyCharacter(ctx, w * 0.5, h * 0.62);
+                // Sketchbook in hand
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(w * 0.54, h * 0.62, 18, 22);
+            }
+
+            // Title Overlay on Canvas
+            ctx.fillStyle = '#1C1917';
+            ctx.font = 'bold 16px Fredoka, sans-serif';
+            ctx.fillText(data.title, 15, h - 15);
+        }
+
+        function drawLilyCharacter(ctx, x, y) {
+            // Body (Overalls)
+            ctx.fillStyle = '#FB7185';
+            ctx.fillRect(x - 12, y - 25, 24, 30);
+            // Head
+            ctx.beginPath();
+            ctx.arc(x, y - 38, 14, 0, Math.PI * 2);
+            ctx.fillStyle = '#FDE047';
+            ctx.fill();
+            // Eyes
+            ctx.fillStyle = '#1C1917';
+            ctx.beginPath(); ctx.arc(x - 4, y - 40, 2.5, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(x + 4, y - 40, 2.5, 0, Math.PI * 2); ctx.fill();
+            // Smile
+            ctx.strokeStyle = '#1C1917';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.arc(x, y - 36, 5, 0, Math.PI); ctx.stroke();
+        }
+
+        function drawGlowingNote(ctx, x, y, radius, color) {
+            ctx.beginPath();
+            ctx.arc(x, y, radius + 8, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
+        }
+
+        // Chart.js Analytics Initializer
+        function initAnalyticsCharts() {
+            // Pacing Arc Line Chart
+            const ctxArc = document.getElementById('chart-pacing-arc')?.getContext('2d');
+            if (ctxArc) {
+                pacingChart = new Chart(ctxArc, {
+                    type: 'line',
+                    data: {
+                        labels: ['0:00', '0:45', '1:30', '3:00', '4:30', '5:30', '6:00'],
+                        datasets: [{
+                            label: 'Narrative Intensity',
+                            data: [25, 40, 65, 75, 95, 50, 30],
+                            borderColor: '#FB7185',
+                            backgroundColor: 'rgba(251, 113, 133, 0.15)',
+                            fill: true,
+                            tension: 0.4,
+                            borderWidth: 3,
+                            pointBackgroundColor: '#F59E0B',
+                            pointRadius: 5
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `Intensity: ${context.parsed.y}/100`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: { min: 0, max: 100, ticks: { stepSize: 25 } },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+            }
+
+            // Moral Values Radar Chart
+            const ctxMoral = document.getElementById('chart-moral-matrix')?.getContext('2d');
+            if (ctxMoral) {
+                moralChart = new Chart(ctxMoral, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Problem Solving', 'Kindness', 'Courage', 'Empathy', 'Curiosity', 'Community'],
+                        datasets: [{
+                            label: 'Educational Focus Weight',
+                            data: [90, 95, 75, 85, 80, 70],
+                            backgroundColor: 'rgba(56, 189, 248, 0.25)',
+                            borderColor: '#38BDF8',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#0D9488'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            r: {
+                                min: 0,
+                                max: 100,
+                                ticks: { display: false }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Live YouTube Thumbnail Generator
+        function updateThumbnailPreview() {
+            const canvas = document.getElementById('thumbnail-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const title = document.getElementById('thumb-title-input').value || 'Lily & The Lost Lullaby!';
+            const badge = document.getElementById('thumb-badge-input').value || '✨ Animated Story';
+            const bgTheme = document.getElementById('thumb-bg-select').value;
+            const charType = document.getElementById('thumb-char-select').value;
+
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+
+            const w = rect.width;
+            const h = rect.height;
+
+            // Background Gradient
+            let grad;
+            if (bgTheme === 'sunny') {
+                grad = ctx.createLinearGradient(0, 0, w, h);
+                grad.addColorStop(0, '#FEF3C7');
+                grad.addColorStop(1, '#38BDF8');
+            } else if (bgTheme === 'magical') {
+                grad = ctx.createLinearGradient(0, 0, w, h);
+                grad.addColorStop(0, '#FCE7F3');
+                grad.addColorStop(1, '#A78BFA');
+            } else {
+                grad = ctx.createLinearGradient(0, 0, w, h);
+                grad.addColorStop(0, '#D1FAE5');
+                grad.addColorStop(1, '#0D9488');
+            }
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h);
+
+            // Draw Decorative Sparkles
+            ctx.fillStyle = '#FFFFFF';
+            for (let i = 0; i < 12; i++) {
+                const rx = (Math.sin(i * 99) * 0.5 + 0.5) * w;
+                const ry = (Math.cos(i * 33) * 0.5 + 0.5) * h;
+                ctx.beginPath();
+                ctx.arc(rx, ry, (i % 3) + 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Draw Character Art Focus
+            drawLilyCharacter(ctx, w * 0.25, h * 0.65);
+            if (charType === 'lily-note') {
+                drawGlowingNote(ctx, w * 0.38, h * 0.5, 24, '#FB7185');
+            } else if (charType === 'squirrel') {
+                ctx.beginPath(); ctx.arc(w * 0.4, h * 0.7, 18, 0, Math.PI * 2);
+                ctx.fillStyle = '#D97706'; ctx.fill();
+            } else {
+                drawGlowingNote(ctx, w * 0.38, h * 0.42, 18, '#38BDF8');
+                drawGlowingNote(ctx, w * 0.45, h * 0.58, 20, '#A78BFA');
+            }
+
+            // Main Text Card Overlay
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.fillRect(w * 0.48, h * 0.2, w * 0.48, h * 0.6);
+            ctx.strokeStyle = '#F59E0B';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(w * 0.48, h * 0.2, w * 0.48, h * 0.6);
+
+            // Badge
+            ctx.fillStyle = '#FB7185';
+            ctx.font = 'bold 12px Fredoka, sans-serif';
+            ctx.fillText(badge.toUpperCase(), w * 0.52, h * 0.35);
+
+            // Title Wrapping
+            ctx.fillStyle = '#1C1917';
+            ctx.font = 'bold 18px Fredoka, sans-serif';
+            wrapText(ctx, title, w * 0.52, h * 0.5, w * 0.42, 22);
+        }
+
+        function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '';
+            for (let n = 0; n < words.length; n++) {
+                let testLine = line + words[n] + ' ';
+                let metrics = ctx.measureText(testLine);
+                let testWidth = metrics.width;
+                if (testWidth > maxWidth && n > 0) {
+                    ctx.fillText(line, x, y);
+                    line = words[n] + ' ';
+                    y += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            ctx.fillText(line, x, y);
+        }
+
+        async function copyMetadata() {
+            const metaText = "Sparkle Sprouts Adventures | Lily and the Lost Lullaby (Animated Kids Story)\nTags: animated kids video, children storybook, problem solving for kids, kindness story, lily and the lost lullaby";
+            try {
+                await navigator.clipboard.writeText(metaText);
+                showToast('YouTube metadata copied');
+            } catch (error) {
+                const helper = document.createElement('textarea');
+                helper.value = metaText;
+                helper.setAttribute('readonly', '');
+                helper.style.position = 'fixed';
+                helper.style.opacity = '0';
+                document.body.appendChild(helper);
+                helper.select();
+                document.execCommand('copy');
+                helper.remove();
+                showToast('YouTube metadata copied');
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.setAttribute('role', 'status');
+            toast.className = 'fixed bottom-5 left-1/2 -translate-x-1/2 z-[60] rounded-full bg-stone-900 px-4 py-2 text-sm font-bold text-white shadow-xl';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2200);
+        }
+    </script>
+</body>
+</html>
